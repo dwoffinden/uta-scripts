@@ -3,8 +3,6 @@
 use strict;
 use feature 'switch';
 
-my $exercise;
-
 sub usage {
   print <<END;
 usage:
@@ -17,12 +15,7 @@ END
 }
 
 sub init {
-  my $exercise;
-  if ($_[0]) {
-    $exercise = $_[0];
-  } else {
-    die;
-  }
+  my $exercise = shift;
 
   open(SSH, 'ssh -p 10022 labranch.doc.ic.ac.uk |');
 
