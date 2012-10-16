@@ -1,6 +1,7 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
+use warnings;
 use feature 'switch';
 
 sub usage {
@@ -40,6 +41,8 @@ sub fetch {
   while (my $remote = <SSH>) {
     system("git fetch $remote");
   }
+
+  system("git gc")
 }
 
 given ($ARGV[0]) {
