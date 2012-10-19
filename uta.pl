@@ -24,8 +24,8 @@ sub init {
 
   chdir "$exercise";
 
-  while (my $line = <SSH>) {
-    if ($line =~ m|git clone (ssh://.+?/lab/(.+?)/.+?/$exercise)|) {
+  while (<SSH>) {
+    if (m|git clone (ssh://.+?/lab/(.+?)/.+?/$exercise)|) {
       my $url = $1;
       my $tutee = $2;
       system("git remote add --fetch $tutee $url");
