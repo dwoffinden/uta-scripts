@@ -18,45 +18,42 @@ END
 sub init {
   my $exercise = shift;
 
-  open(SSH, 'ssh -p 10022 labranch.doc.ic.ac.uk |');
+  open(my $ssh, '-|', 'ssh -p 10022 labranch.doc.ic.ac.uk');
 
   system("git init $exercise");
 
-  chdir "$exercise";
+  chdir $exercise;
 
-  while (<SSH>) {
+  while (<$ssh>) {
     if (m|git clone (ssh://.+?/lab/(.+?)/.+?/$exercise)|) {
       my $url = $1;
       my $tutee = $2;
       system("git remote add --fetch $tutee $url");
     };
   }
-
-  system("git gc")
+  close($ssh);
 }
 
 sub fetch {
-  open(SSH, 'git remote |');
-
-  while (my $remote = <SSH>) {
-    system("git fetch $remote");
+  open(my $git, '-|', 'git remote');
+  while (<$git>) {
+    system("git fetch $_");
   }
-
-  system("git gc")
+  close($git);
 }
 
 given ($ARGV[0]) {
-  when ("init") {
-    if (defined($ARGV[1])) {
+  when ('init') {
+    if ($ARGV[1]) {
       init $ARGV[1];
     } else {
-      usage; exit;
+      usage;
     }
   }
-  when ("fetch") {
+  when ('fetch') {
     fetch;
   }
   default {
-    usage; exit;
+    usage;
   }
 }
