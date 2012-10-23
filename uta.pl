@@ -22,7 +22,7 @@ sub init {
 
   system("git init $exercise");
 
-  chdir $exercise;
+  chdir "$exercise";
 
   while (<$ssh>) {
     if (m|git clone (ssh://.+?/lab/(.+?)/.+?/$exercise)|) {
