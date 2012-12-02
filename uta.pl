@@ -4,6 +4,10 @@ use strict;
 use warnings;
 use feature 'switch';
 
+sub list {
+  system('ssh -p 10022 labranch.doc.ic.ac.uk');
+}
+
 sub usage {
   print <<END;
 usage:
@@ -43,6 +47,9 @@ sub fetch {
 }
 
 given ($ARGV[0]) {
+  when ('list') {
+    list;
+  }
   when ('init') {
     if ($ARGV[1]) {
       init $ARGV[1];
