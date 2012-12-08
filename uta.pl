@@ -16,6 +16,9 @@ usage:
 
   $0 fetch
     fetch from all remotes for the current repo
+
+  $0 list
+    list available repos
 END
 }
 
