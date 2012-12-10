@@ -49,11 +49,7 @@ sub init {
 }
 
 sub fetch {
-  open(my $git, '-|', 'git remote');
-  while (<$git>) {
-    system("git fetch $_");
-  }
-  close($git);
+  system('git fetch --all');
 }
 
 given ($ARGV[0]) {
