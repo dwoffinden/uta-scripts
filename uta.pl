@@ -25,7 +25,7 @@ END
 sub init {
   my $exercise = shift;
 
-  open(my $ssh, '-|', 'ssh -p 10022 labranch.doc.ic.ac.uk');
+  open(my $ssh, '-|', 'ssh -p 10022 labranch.doc.ic.ac.uk 2>&1');
 
   system("git init $exercise");
 
