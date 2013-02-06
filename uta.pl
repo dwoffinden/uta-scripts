@@ -22,6 +22,10 @@ usage:
 END
 }
 
+sub fetch {
+  system('git fetch --all');
+}
+
 sub init {
   my $exercise = shift;
 
@@ -37,19 +41,17 @@ sub init {
     if (m|git clone (ssh://.+?/lab/(.+?)/.+?/$exercise)|) {
       my $url = $1;
       my $tutee = $2;
-      system("git remote add --fetch $tutee $url");
+      system("git remote add $tutee $url");
       push(@remote_branches, "$tutee/master");
     };
   }
   close($ssh);
 
+  fetch;
+
   # find the root commit, checkout and create a master branch there
   # pretty terrible hack, pity the git in labs doesn't support --max-parents=0 :(
   system('git checkout -b master ' . `git rev-list --author=tora\@doc.ic.ac.uk @remote_branches`);
-}
-
-sub fetch {
-  system('git fetch --all');
 }
 
 given ($ARGV[0]) {
