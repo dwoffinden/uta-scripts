@@ -5,7 +5,13 @@ use warnings;
 use feature 'switch';
 
 sub list {
-  system('ssh -p 10022 labranch.doc.ic.ac.uk');
+  open(my $ssh, '-|', 'ssh -p 10022 labranch.doc.ic.ac.uk 2>&1');
+  while (<$ssh>) {
+    if (m|git clone ssh://.+?(/lab/.+?/.+?/.+?$)|) {
+      print $1, "\n";
+    };
+  }
+  close($ssh);
 }
 
 sub usage {
@@ -27,9 +33,9 @@ sub fetch {
 }
 
 sub init {
-  my $exercise = shift;
-
   open(my $ssh, '-|', 'ssh -p 10022 labranch.doc.ic.ac.uk 2>&1');
+
+  my $exercise = shift;
 
   system("git init $exercise");
 
